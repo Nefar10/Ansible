@@ -1,0 +1,40 @@
+---
+- name: Users | create user
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    group: "{{ item.group | d(omit) }}"
+    password: "{{ item.password | d(omit) }}"
+    home: "{{ item.home_dir | d(omit) }}"
+    uid: "{{ item.uid | d(omit) }}"
+    shell: "{{ item.shell | d('/bin/bash') }}"
+  loop: "{{ server_admins }}"
+
+- name: Users | manage ssh authorized keys
+  ansible.posix.authorized_key:
+    user: "{{ item.target_user }}"
+    manage_dir: true
+    state: "{{ item.state }}"
+    key: "{{ item.ssh_key }}"
+    comment: "{{ item.name }}{% if item.get('email', false) %} ({{ item.email }}){% endif %}"
+  loop: "{{ server_admkeys }}"
+
+- name: Users | sudoers
+  community.general.sudoers:
+    name: "{{ item.name }}"
+    state: present
+    user: "{{ item.name }}"
+    runas: root
+    commands: ALL
+  loop: "{{ server_admins | selectattr('sudo', 'true') | list }}"
+
+- name: User | bash_profile
+  ansible.builtin.copy:
+    content: |
+      [ -f $HOME/.bashrc ] && source $HOME/.bashrc
+      export XDG_RUNTIME_DIR="/run/user/$UID"
+      export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+    dest: "{{ item.home_dir }}/.bash_profile"
+    owner: "{{ item.name }}"
+    group: "{{ item.group | d(omit) }}"
+    mode: '0644'
+  loop: "{{ server_admins | selectattr('systemd', 'true') | list }}"

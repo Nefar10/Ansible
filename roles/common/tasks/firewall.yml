@@ -1,0 +1,46 @@
+---
+- name: Firewall configuration Debian
+  when: ansible_os_family == "Debian"
+  block:
+    - name: Open multiple ports for all connections
+      ansible.builtin.iptables:
+        chain: INPUT
+        protocol: "{{ item.protocol }}"
+        destination_port: "{{ item.port }}"
+        jump: "{{ 'ACCEPT' if item.state == 'present' else 'DROP' }}"
+      loop: "{{ ports }}"
+
+    - name: Ensure iptables rules directory exists
+      ansible.builtin.file:
+        path: /etc/iptables
+        state: directory
+        mode: '0755'
+
+    - name: Save iptables rules to a file
+      ansible.builtin.shell: iptables-save > /etc/iptables/rules.v4
+      args:
+        creates: /etc/iptables/rules.v4
+
+    - name: Setup fail2ban for SSH with iptables
+      ansible.builtin.copy:
+        dest: /etc/fail2ban/jail.local
+        content: |
+          [sshd]
+          enabled = true
+          port = 2222
+          filter = sshd
+          logpath = /var/log/auth.log
+          maxretry = 3
+          bantime = 3600
+          action = iptables[name=sshd, port=22, protocol=tcp]
+        mode: '0644'
+
+    - name: Check rules iptables
+      ansible.builtin.copy:
+        dest: /etc/fail2ban/action.d/iptables.conf
+        content: |
+          [Definition]
+          actionban = iptables -I INPUT -s <ip> -j REJECT
+          actionunban = iptables -D INPUT -s <ip> -j REJECT
+        mode: '0644'
+      notify: Restarting fail2ban

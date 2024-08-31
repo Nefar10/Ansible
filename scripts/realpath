@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+
+import os as o
+import sys as s
+
+print(o.path.realpath(s.argv[1]))

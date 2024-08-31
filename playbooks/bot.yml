@@ -1,0 +1,6 @@
+---
+- name: Install Bot
+  hosts: servers
+  become: true
+  roles:
+    - role: bot

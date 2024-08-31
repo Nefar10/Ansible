@@ -1,0 +1,25 @@
+#!/bin/bash
+set -euo pipefail
+
+[ -n "${A:-}" ] && exit 0
+
+p=$(cd $(dirname $0) && pwd)
+v=$(${p}/realpath ${p}/../.vault-password)
+
+if ! [ -f "$v" ]; then
+  echo "error: there is no vault file '$v'"
+  exit 1
+fi
+
+t=$(file --brief --mime-type "$v")
+
+if [[ "$t" == "application/pgp-encrypted" || "$t" == "application/pgp" ]]; then
+  s=0
+  gpg --batch --use-agent --decrypt "$v" 2>/dev/null | head -1; s=$?
+  if [ $s -ne 0 ]; then
+    echo 'password'
+    exit 0
+  fi
+else
+  head -1 "$v" 2>/dev/null
+fi

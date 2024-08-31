@@ -1,0 +1,7 @@
+---
+- name: Common procedures
+  ansible.builtin.import_playbook: playbooks/common.yml
+- name: Redis
+  ansible.builtin.import_playbook: playbooks/redis.yml
+- name: Bot
+  ansible.builtin.import_playbook: playbooks/bot.yml

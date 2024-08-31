@@ -1,0 +1,9 @@
+---
+- name: Install necessary packages
+  ansible.builtin.include_tasks: packages.yml
+
+- name: Create cli users
+  ansible.builtin.include_tasks: users.yml
+
+- name: Firewall configure
+  ansible.builtin.include_tasks: firewall.yml

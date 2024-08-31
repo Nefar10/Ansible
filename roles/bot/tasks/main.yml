@@ -1,0 +1,23 @@
+---
+- name: Create bot_dir "{{ bot_place }}"
+  ansible.builtin.file:
+    path: "{{ bot_place }}"
+    state: directory
+    mode: '0755'
+
+- name: Create initialization scenario
+  ansible.builtin.template:
+    src: bot_init.sh.j2
+    dest: "{{ bot_place }}/init.sh"
+    mode: '0755'
+
+- name: Create bot's container scenario
+  ansible.builtin.template:
+    src: bot_compose.yml.j2
+    dest: "{{ bot_place }}/docker-compose.yml"
+    mode: '0755'
+
+- name: Starting bot container
+  community.docker.docker_compose_v2:
+    project_src: "{{ bot_place }}/"
+    state: present

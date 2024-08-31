@@ -1,0 +1,9 @@
+---
+server_admins:
+  - name: pin
+    home_dir: /home/admin
+    shell: /bin/bash
+    password: '!'
+    sudo: true
+    systemd: true
+    docker: true

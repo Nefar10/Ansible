@@ -1,0 +1,12 @@
+---
+server_admkeys:
+  - name: 'Nefari0'
+    email: 'Nefari0@itvangard.com'
+    target_user: 'pin'
+    ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIfe+5ca/1HO5Nm7DUzgdC1ZC6xivjzEdDSAmJktkQsqi1CqYjpOWfqJ5Jc6YmT5gghT8d8QQg+ofHqxBpNe3BtQYiEAsbiNJ\
+      r2qF2I4qBo3q5TCb5t8lIvSBFv2saB7H9HzIxaGx7PH8kdth0N11O+uOBPHAfK9pLgELdA8FnbOjsGrKa+ml+KUHHVKSxdO5yl3EgudhMKxMsCVodr47l2KxBNso6/VYOVVaZweJ3T/W68a\
+      gJY0EnCeYuo1Twg9ErJgubyxCyPDra68AZYJsNkySQLse2Jy6UTQRPPvDi6YcA4peoEvtyEVMnceWDYV2uRqbBuLzNnazJATyt3ovexp26bLQH7u6zp36WI2TIUBIRdFY8iwE6VLRj9n43X\
+      HeVBYLiuW+Cb7V8RS76QT+ZjgJwejIlUZDToJp5t1OIFfFXyCAB0Hc+7h8j0PPONF3/MgzbGv1/O1YyVjbK1SFYxgm8nI+qttQJTBhGrcMonZYUJSjm2PnZmtm9bpheMQM= root@deb12"
+    state: present
+
+bot_dir: /opt

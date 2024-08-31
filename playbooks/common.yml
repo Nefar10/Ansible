@@ -1,0 +1,6 @@
+---
+- name: Base operations
+  hosts: all
+  become: true
+  roles:
+    - role: common

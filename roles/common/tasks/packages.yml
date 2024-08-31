@@ -1,0 +1,38 @@
+---
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
+    state: present
+
+- name: Install common packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sudo
+    - curl
+    - unzip
+    - python3
+    - python3-pip
+    - python3-pexpect
+    - python3-requests
+    - python3-docker
+    - rsyslog
+    - fail2ban
+    - iptables
+    - build-essential
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - redis-tools
+
+- name: Install Docker Compose
+  ansible.builtin.get_url:
+    url: "https://github.com/docker/compose/releases/latest/download/docker-compose-{{ ansible_system | lower }}-{{ ansible_architecture }}"
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
