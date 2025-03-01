@@ -12,6 +12,8 @@ bot_names:
   - адам
 bot_place: "{{ bot_dir }}/{{ bot_names[0] }}"
 bot_gender: Male
+bot_name1: "OpenAI"
+bot_name2: "DeepSeek"
 bot_api_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           65616163653434316537636136616634643863666336303334643836366137633138656132613936

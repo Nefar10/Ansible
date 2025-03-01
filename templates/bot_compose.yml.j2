@@ -3,13 +3,14 @@ version: '3.7'
 services:
   {{ bot_names[0] }}:
     restart: always
-    image: golang:latest
+    image: golang:1.23
     command: bash -c "chmod +x init.sh && sh init.sh"
     volumes:
       - ./init.sh:/go/init.sh
     environment:
       - AFINA_LOCALE={{ bot_locale }}
-      - AFINA_API_KEY={{ bot_api_key }}
+      - AI_KEYS={{ bot_api_key }},{{ bot_api_key2 }}
+      - AI_NAMES={{ ai_name1 }}, {{ ai_name2 }}
       - TB_API_KEY={{ tb_api_key }}
       - AFINA_NAMES={{ bot_names[0] }},{{ bot_names[1] }}
       - AFINA_GENDER={{ bot_gender }}
