@@ -1,0 +1,3 @@
+---
+- name: Show pass
+  ansible.builtin.import_playbook: playbooks/passwords.yml
