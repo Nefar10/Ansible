@@ -14,6 +14,10 @@ bot_place: "{{ bot_dir }}/{{ bot_names[0] }}"
 bot_gender: Male
 ai_name1: "OpenAI"
 ai_name2: "DeepSeek"
+ai_base_model1: "gpt-4o-mini"
+ai_base_model2: "deepseek-chat"
+ai_url1: "https://api.proxyapi.ru/openai/v1"
+ai_url2: "https://api.deepseek.com"
 bot_api_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           65616163653434316537636136616634643863666336303334643836366137633138656132613936
